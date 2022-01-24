@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,7 +9,7 @@
     tools:context=".MainActivity">
 
     <AutoCompleteTextView
-        android:id="@+id/srcActv"
+        android:id="@+id/srcView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:completionHint="Select a Digimon"
@@ -17,12 +18,23 @@
         android:minHeight="48dp" />
 
     <AutoCompleteTextView
-        android:id="@+id/dstActv"
+        android:id="@+id/dstView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:completionHint="Select a Digimon"
         android:completionThreshold="1"
         android:hint="@string/select_destination_digimon"
         android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/calculate_route" />
+
+    <ListView
+        android:id="@+id/results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

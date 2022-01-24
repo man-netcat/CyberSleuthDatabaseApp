@@ -1,5 +1,9 @@
 package com.example.cybersleuthpathfinder;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,6 +51,7 @@ class Vertex {
         } else return id.equals(other.id);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name;
@@ -82,6 +87,7 @@ class Edge {
         return weight;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return source + " " + destination;
@@ -108,7 +114,6 @@ class Graph {
 
 
 class DijkstraAlgorithm {
-    private final ArrayList<Vertex> nodes;
     private final ArrayList<Edge> edges;
     private Set<Vertex> settledNodes;
     private Set<Vertex> unSettledNodes;
@@ -117,15 +122,14 @@ class DijkstraAlgorithm {
 
     public DijkstraAlgorithm(Graph graph) {
         // create a copy of the array so that we can operate on this array
-        this.nodes = new ArrayList<Vertex>(graph.getVertexes());
-        this.edges = new ArrayList<Edge>(graph.getEdges());
+        this.edges = new ArrayList<>(graph.getEdges());
     }
 
     public void execute(Vertex source) {
-        settledNodes = new HashSet<Vertex>();
-        unSettledNodes = new HashSet<Vertex>();
-        distance = new HashMap<Vertex, Integer>();
-        predecessors = new HashMap<Vertex, Vertex>();
+        settledNodes = new HashSet<>();
+        unSettledNodes = new HashSet<>();
+        distance = new HashMap<>();
+        predecessors = new HashMap<>();
         distance.put(source, 0);
         unSettledNodes.add(source);
         while (unSettledNodes.size() > 0) {
@@ -160,7 +164,7 @@ class DijkstraAlgorithm {
     }
 
     private List<Vertex> getNeighbors(Vertex node) {
-        List<Vertex> neighbors = new ArrayList<Vertex>();
+        List<Vertex> neighbors = new ArrayList<>();
         for (Edge edge : edges) {
             if (edge.getSource().equals(node)
                     && !isSettled(edge.getDestination())) {
@@ -202,7 +206,7 @@ class DijkstraAlgorithm {
      * NULL if no path exists
      */
     public ArrayList<Vertex> getPath(Vertex target) {
-        ArrayList<Vertex> path = new ArrayList<Vertex>();
+        ArrayList<Vertex> path = new ArrayList<>();
         Vertex step = target;
         // check if a path exists
         if (predecessors.get(step) == null) {
@@ -232,7 +236,7 @@ class Pathfinder {
             map.put(src.Name, vertex);
         }
 
-        ArrayList<Vertex> vertices = new ArrayList<Vertex>(map.values());
+        ArrayList<Vertex> vertices = new ArrayList<>(map.values());
 
         for (SrcDigimon src : database) {
             Vertex srcVertex = map.get(src.Name);
@@ -240,11 +244,13 @@ class Pathfinder {
             for (String dst : src.Prev) {
                 Vertex dstVertex = map.get(dst);
                 Edge edge = new Edge(src.Name + dst, srcVertex, dstVertex, 0);
+                edges.add(edge);
             }
 
             for (DstDigimon dst : src.Next) {
                 Vertex dstVertex = map.get(dst.Name);
                 Edge edge = new Edge(src.Name + dst, srcVertex, dstVertex, Integer.parseInt(dst.Level));
+                edges.add(edge);
             }
         }
 

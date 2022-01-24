@@ -4,20 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    ArrayList<String> resList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,42 +36,50 @@ public class MainActivity extends AppCompatActivity {
 
         // Get list of names from database
         ArrayList<String> names = new ArrayList<>();
+
         for (SrcDigimon digimon : digimon_database) {
             names.add(digimon.Name);
         }
 
         // Build src view
-        AutoCompleteTextView srcActv = findViewById(R.id.srcActv);
+        AutoCompleteTextView srcView = findViewById(R.id.srcView);
         ArrayAdapter<String> srcAdapter = new ArrayAdapter<>(this,
                 R.layout.custom_list_item, R.id.text_view_list_item, names);
-        srcActv.setAdapter(srcAdapter);
-        srcActv.setThreshold(1);
+        srcView.setAdapter(srcAdapter);
+        srcView.setThreshold(1);
 
-        // Build src view
-        AutoCompleteTextView dstActv = findViewById(R.id.dstActv);
+        // Build dst view
+        AutoCompleteTextView dstView = findViewById(R.id.dstView);
         ArrayAdapter<String> dstAdapter = new ArrayAdapter<>(this,
                 R.layout.custom_list_item, R.id.text_view_list_item, names);
-        dstActv.setAdapter(dstAdapter);
-        dstActv.setThreshold(1);
+        dstView.setAdapter(dstAdapter);
+        dstView.setThreshold(1);
 
-        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String src = srcAdapter.getItem(position);
-                String dst = dstAdapter.getItem(position);
-                try {
-                    ArrayList<String> path = pathfinder.findPath(src, dst);
-                    for (String vertex : path) {
-                        Log.i("node", vertex);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        ListView resView = findViewById(R.id.results);
+        ArrayAdapter<String> resAdapter = new ArrayAdapter<>(this, R.layout.custom_list_item, resList);
+        resView.setAdapter(resAdapter);
+
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(v -> {
+            String src = srcView.getText().toString();
+            String dst = dstView.getText().toString();
+
+            Log.i("Src", src);
+            Log.i("Dst", dst);
+
+            resList.clear();
+
+            ArrayList<String> path = pathfinder.findPath(src, dst);
+
+            for (int i = 0; i < path.size() - 1; i++) {
+                String cur = path.get(i);
+                String next = path.get(i + 1);
+                String str = cur + " -> " + next;
+                resList.add(str);
             }
-        };
 
-        srcActv.setOnItemClickListener(onItemClickListener);
-        dstActv.setOnItemClickListener(onItemClickListener);
+            resAdapter.notifyDataSetChanged();
+        });
 
     }
 }
