@@ -3,7 +3,6 @@ package com.example.cybersleuthpathfinder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -43,29 +42,26 @@ public class MainActivity extends AppCompatActivity {
 
         // Build src view
         AutoCompleteTextView srcView = findViewById(R.id.srcView);
-        ArrayAdapter<String> srcAdapter = new ArrayAdapter<>(this,
-                R.layout.custom_list_item, R.id.text_view_list_item, names);
+        ArrayAdapter<String> srcAdapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.item_textview, names);
         srcView.setAdapter(srcAdapter);
         srcView.setThreshold(1);
 
         // Build dst view
         AutoCompleteTextView dstView = findViewById(R.id.dstView);
-        ArrayAdapter<String> dstAdapter = new ArrayAdapter<>(this,
-                R.layout.custom_list_item, R.id.text_view_list_item, names);
+        ArrayAdapter<String> dstAdapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.item_textview, names);
         dstView.setAdapter(dstAdapter);
         dstView.setThreshold(1);
 
+        // Set result list view
         ListView resView = findViewById(R.id.results);
-        ArrayAdapter<String> resAdapter = new ArrayAdapter<>(this, R.layout.custom_list_item, resList);
+        ArrayAdapter<String> resAdapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.item_textview, resList);
         resView.setAdapter(resAdapter);
 
+        // Set button for finding path
         Button button = findViewById(R.id.button);
         button.setOnClickListener(v -> {
             String src = srcView.getText().toString();
             String dst = dstView.getText().toString();
-
-            Log.i("Src", src);
-            Log.i("Dst", dst);
 
             resList.clear();
 

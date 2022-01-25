@@ -3,4 +3,5 @@
     <string name="select_source_digimon">Select source digimon</string>
     <string name="select_destination_digimon">Select destination digimon</string>
     <string name="calculate_route">Calculate route</string>
+    <string name="textview">Result</string>
 </resources>
