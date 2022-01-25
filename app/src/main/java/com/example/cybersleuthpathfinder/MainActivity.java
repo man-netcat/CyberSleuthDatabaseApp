@@ -3,6 +3,7 @@ package com.example.cybersleuthpathfinder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -18,46 +19,57 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> resList = new ArrayList<>();
+    ArrayList<String> names = new ArrayList<>();
+    ArrayList<SrcDigimon> digimon_database = new ArrayList<>();
+    Pathfinder pathfinder;
+
+    /* Get digimon database from JSON */
+    void populateNames() {
+        String jsonFileString = Utils.getJsonFromAssets(getApplicationContext(), "digimon_database.json");
+        Type listDigimonType = new TypeToken<List<SrcDigimon>>() {
+        }.getType();
+        Gson gson = new Gson();
+        digimon_database = gson.fromJson(jsonFileString, listDigimonType);
+        assert digimon_database != null;
+        pathfinder = new Pathfinder(digimon_database);
+    }
+
+    /* Get list of names from database */
+    void populateDatabase() {
+        for (SrcDigimon digimon : digimon_database) {
+            names.add(digimon.Name);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get digimon database from JSON
-        String jsonFileString = Utils.getJsonFromAssets(getApplicationContext(), "digimon_database.json");
-        Type listDigimonType = new TypeToken<List<SrcDigimon>>() {
-        }.getType();
-        Gson gson = new Gson();
-        List<SrcDigimon> digimon_database = gson.fromJson(jsonFileString, listDigimonType);
-        assert digimon_database != null;
-        Pathfinder pathfinder = new Pathfinder(digimon_database);
+        populateNames();
+        populateDatabase();
 
-        // Get list of names from database
-        ArrayList<String> names = new ArrayList<>();
-
-        for (SrcDigimon digimon : digimon_database) {
-            names.add(digimon.Name);
-        }
-
-        // Build src view
+        /* Build src view */
         AutoCompleteTextView srcView = findViewById(R.id.srcView);
-        ArrayAdapter<String> srcAdapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.item_textview, names);
+        ArrayAdapter<String> srcAdapter = new ArrayAdapter<>(
+                this, R.layout.list_item, R.id.item_textview, names);
         srcView.setAdapter(srcAdapter);
         srcView.setThreshold(1);
 
-        // Build dst view
+        /* Build dst view */
         AutoCompleteTextView dstView = findViewById(R.id.dstView);
-        ArrayAdapter<String> dstAdapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.item_textview, names);
+        ArrayAdapter<String> dstAdapter = new ArrayAdapter<>(
+                this, R.layout.list_item, R.id.item_textview, names);
         dstView.setAdapter(dstAdapter);
         dstView.setThreshold(1);
 
-        // Set result list view
-        ListView resView = findViewById(R.id.results);
-        ArrayAdapter<String> resAdapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.item_textview, resList);
+        /* Set result list view */
+        ListView resView = findViewById(R.id.resView);
+        ArrayAdapter<String> resAdapter = new ArrayAdapter<>(
+                this, R.layout.list_item, R.id.item_textview, resList);
         resView.setAdapter(resAdapter);
 
-        // Set button for finding path
+        /* Set button for finding path */
         Button button = findViewById(R.id.button);
         button.setOnClickListener(v -> {
             String src = srcView.getText().toString();
