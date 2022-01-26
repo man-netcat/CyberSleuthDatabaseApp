@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.cybersleuthpathfinder">
 
     <application
@@ -9,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CyberSleuthPathFinder"
         android:fullBackupContent="@xml/backup_descriptor"
-        android:allowBackup="true">
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        tools:targetApi="s">
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -19,6 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".StatActivity" />
+        <activity android:name=".PathActivity" />
+        <activity android:name=".SkillActivity" />
     </application>
 
 </manifest>

@@ -4,4 +4,7 @@
     <string name="select_destination_digimon">Select destination digimon</string>
     <string name="calculate_route">Calculate route</string>
     <string name="textview">Result</string>
+    <string name="digivolution_path_finder">Digivolution Path Finder</string>
+    <string name="digimon_stats">Digimon Stats</string>
+    <string name="skill_stats">Skill Stats</string>
 </resources>
