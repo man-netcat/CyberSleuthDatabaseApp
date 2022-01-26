@@ -1,7 +1,5 @@
 package com.example.cybersleuthpathfinder;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -226,6 +224,7 @@ class DijkstraAlgorithm {
 class Pathfinder {
     DijkstraAlgorithm dijkstra;
     HashMap<String, Vertex> map;
+
     public Pathfinder(List<SrcDigimon> database) {
         // Initialises object by building graph
         ArrayList<Edge> edges = new ArrayList<>();

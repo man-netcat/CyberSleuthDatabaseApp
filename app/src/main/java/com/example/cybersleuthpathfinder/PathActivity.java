@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PathActivity extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class PathActivity extends AppCompatActivity {
         for (SrcDigimon digimon : digimon_database) {
             names.add(digimon.Name);
         }
+        Collections.sort(names);
     }
 
     @Override
@@ -63,7 +65,7 @@ public class PathActivity extends AppCompatActivity {
         dstView.setThreshold(1);
 
         /* Set result list view */
-        ListView resView = findViewById(R.id.resView);
+        ListView resView = findViewById(R.id.pathResults);
         ArrayAdapter<String> resAdapter = new ArrayAdapter<>(
                 this, R.layout.list_item, R.id.item_textview, resList);
         resView.setAdapter(resAdapter);
@@ -87,6 +89,5 @@ public class PathActivity extends AppCompatActivity {
 
             resAdapter.notifyDataSetChanged();
         });
-
     }
 }

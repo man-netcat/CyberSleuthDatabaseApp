@@ -1,5 +1,6 @@
 package com.example.cybersleuthpathfinder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class DstDigimon {
@@ -18,7 +19,12 @@ class DstDigimon {
     String SPD;
 }
 
-class DstSkill {
+class Skill {
+    String Name;
+    ArrayList<Learns> Digimon;
+}
+
+class Learns {
     String Name;
     String Level;
 }
@@ -27,5 +33,5 @@ class SrcDigimon {
     String Name;
     List<String> Prev;
     List<DstDigimon> Next;
-    List<DstSkill> Skills;
+    List<Learns> Skills;
 }
