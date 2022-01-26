@@ -35,3 +35,19 @@ class SrcDigimon {
     List<DstDigimon> Next;
     List<Learns> Skills;
 }
+
+class Digimon {
+    String Id;
+    String Name;
+    String Stage;
+    String Type;
+    String Attribute;
+    String Memory;
+    String EquipSlots;
+    String HP;
+    String SP;
+    String Atk;
+    String Def;
+    String Int;
+    String Spd;
+}

@@ -25,7 +25,7 @@ public class PathActivity extends AppCompatActivity {
 
     /* Get digimon database from JSON */
     void populateNames() {
-        String jsonFileString = Utils.getJsonFromAssets(getApplicationContext(), "digimon_database.json");
+        String jsonFileString = Utils.getJsonFromAssets(getApplicationContext(), "digivolution_database.json");
         Type listDigimonType = new TypeToken<List<SrcDigimon>>() {
         }.getType();
         Gson gson = new Gson();
