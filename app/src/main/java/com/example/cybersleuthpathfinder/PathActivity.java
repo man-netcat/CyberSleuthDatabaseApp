@@ -1,6 +1,7 @@
 package com.example.cybersleuthpathfinder;
 
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -57,6 +58,22 @@ public class PathActivity extends AppCompatActivity {
         Collections.sort(names);
     }
 
+    public StringBuilder statString(DstDigimon stats) throws IllegalAccessException {
+        StringBuilder statStr = new StringBuilder();
+        Field[] fields = stats.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            String name = field.getName();
+            if (name.equals("Name")) continue;
+            Object value = field.get(stats);
+            if (value != null)
+                statStr.append("\n").append(name).append(": ").append(value);
+        }
+
+        return statStr;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,17 +122,7 @@ public class PathActivity extends AppCompatActivity {
                     if (stats == null) {
                         statStr = new StringBuilder("\nDe-Digivolve");
                     } else {
-                        statStr = new StringBuilder();
-                        Field[] fields = stats.getClass().getDeclaredFields();
-
-                        for (Field field : fields) {
-                            field.setAccessible(true);
-                            String name = field.getName();
-                            if (name.equals("Name")) continue;
-                            Object value = field.get(stats);
-                            if (value != null)
-                                statStr.append("\n").append(name).append(": ").append(value);
-                        }
+                        statStr = statString(stats);
                     }
 
                     String str = cur + " -> " + next + statStr;
@@ -123,6 +130,8 @@ public class PathActivity extends AppCompatActivity {
                 }
 
                 resAdapter.notifyDataSetChanged();
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             } catch (Exception ignored) {
             }
         });

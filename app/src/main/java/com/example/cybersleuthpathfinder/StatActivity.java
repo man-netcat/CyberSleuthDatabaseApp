@@ -1,6 +1,7 @@
 package com.example.cybersleuthpathfinder;
 
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
@@ -83,6 +84,8 @@ public class StatActivity extends AppCompatActivity {
                 resList.add("Equip Slots: " + digimon.EquipSlots);
 
                 statAdapter.notifyDataSetChanged();
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             } catch (Exception ignored) {
                 resList.clear();
             }
